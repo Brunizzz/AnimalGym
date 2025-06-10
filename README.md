@@ -29,7 +29,7 @@ ProyectoFinal/
 
 ### 🔹 Backend (Node.js / Express)
 
-1. Ir al directorio del backend::
+1. Ir al directorio del backend:
    ```bash
    cd ProyectoFinal_back
 2. Instalar dependencias:
