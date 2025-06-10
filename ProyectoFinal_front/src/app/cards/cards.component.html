@@ -1,0 +1,24 @@
+<div class="container py-5">
+    <h2 class="text-center text-success mb-4">Planes de Membresía</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4" *ngFor="let plan of planes">
+        <div class="card h-100 text-white plan-card">
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="card-title text-center">{{ plan.titulo }}</h5>
+              <p class="card-text text-center fs-4 text-neon">${{ plan.precio }}</p>
+              <ul class="list-unstyled mt-3">
+                <li *ngFor="let beneficio of plan.beneficios">
+                   {{ beneficio }}
+                </li>
+              </ul>
+            </div>
+            <div class="text-center mt-4">
+              <button class="btn btn-neon w-100">Elegir Plan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

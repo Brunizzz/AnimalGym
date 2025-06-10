@@ -1,0 +1,47 @@
+<div id="titulo" class="bg-dark text-light p-4 rounded mb-4">
+</div>
+
+<div class="tabla-titulo">Lista de Productos</div>
+
+<!-- Filtro de búsqueda -->
+<div class="mb-4 text-center">
+  <input
+    type="text"
+    [(ngModel)]="filtro"
+    placeholder="Buscar por nombre..."
+    class="form-control filtro-input"
+  />
+</div>
+
+<!-- Tabla con productos -->
+<div *ngIf="filtrados.length > 0; else loading" id="mitabla" class="shadow-lg">
+  <table class="tabla-personalizada animate__animated animate__fadeIn">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of filtrados">
+        <td data-label="Imagen">
+          <img [src]="producto.image" [alt]="producto.name">
+        </td>
+        <td data-label="Nombre">{{ producto.name }}</td>
+        <td data-label="Descripción">{{ producto.description }}</td>
+        <td data-label="Precio">${{ producto.price }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <div class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="text-muted mt-2">Cargando productos...</p>
+  </div>
+</ng-template>

@@ -1,0 +1,180 @@
+<!-- LOGIN SIMULADO ADMIN --> 
+<div class="login-admin">
+  <h3>Acceso administrador</h3>
+  <input [(ngModel)]="usuario" placeholder="Usuario" class="form-control mb-2" />
+  <input [(ngModel)]="contrasena" type="password" placeholder="Contraseña" class="form-control mb-2" />
+  <button class="btn btn-success" (click)="intentarLogin()" [disabled]="!usuario || !contrasena">Entrar</button>
+</div>
+<div *ngIf="esAdmin" class="admin-panel">
+  <p><strong>Modo administrador activado</strong></p>
+  <button (click)="logout()">Cerrar sesión</button>
+</div>
+
+<hr />
+
+<!-- FORMULARIO DE CONTACTO (TEMPLATE-DRIVEN) -->
+<h2>Contáctanos</h2>
+<div class="form-section">
+  <form class="form-style" #formContacto="ngForm" (ngSubmit)="enviarConsulta(formContacto)">
+    <div>
+      <label for="nombre">Nombre completo:</label>
+      <input id="nombre" name="nombre" [(ngModel)]="consulta.nombre" required minlength="3" #nombre="ngModel" />
+      <div *ngIf="formContacto.submitted && nombre.invalid">
+        <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="nombre.errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="telefono">Número de teléfono:</label>
+      <input id="telefono" name="telefono" type="tel" [(ngModel)]="consulta.telefono" required pattern="^[0-9]{10}$" #telefono="ngModel" />
+      <div *ngIf="formContacto.submitted && telefono.invalid">
+        <small *ngIf="telefono.errors?.['required']">El número es obligatorio.</small>
+        <small *ngIf="telefono.errors?.['pattern']">Debe tener exactamente 10 dígitos numéricos.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="tipo">Tipo de consulta:</label>
+      <select id="tipo" name="tipo" [(ngModel)]="consulta.tipo" required #tipo="ngModel">
+        <option value="" disabled>Selecciona una opción</option>
+        <option *ngFor="let tipoItem of tiposConsulta" [value]="tipoItem">{{ tipoItem }}</option>
+      </select>
+      <div *ngIf="formContacto.submitted && tipo.invalid">
+        <small>Selecciona un tipo de consulta.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="mensaje">Mensaje:</label>
+      <textarea id="mensaje" name="mensaje" [(ngModel)]="consulta.mensaje" required minlength="10" #mensaje="ngModel"></textarea>
+      <div *ngIf="formContacto.submitted && mensaje.invalid">
+        <small *ngIf="mensaje.errors?.['required']">El mensaje es obligatorio.</small>
+        <small *ngIf="mensaje.errors?.['minlength']">Debe tener mínimo 10 caracteres.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!formContacto.valid">Enviar</button>
+  </form>
+</div>
+
+<hr />
+
+<!-- FORMULARIO REACTIVO ENTRENADOR -->
+<h2>Aplicar como Entrenador</h2>
+<div class="form-section">
+  <form class="form-style" [formGroup]="entrenadorForm" (ngSubmit)="registrarEntrenador()">
+    <div>
+      <label for="nombreEntrenador">Nombre:</label>
+      <input id="nombreEntrenador" formControlName="nombre" />
+      <div *ngIf="f['nombre'].touched && f['nombre'].invalid">
+        <small *ngIf="f['nombre'].errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="f['nombre'].errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="experiencia">Experiencia:</label>
+      <textarea id="experiencia" formControlName="experiencia"></textarea>
+      <div *ngIf="f['experiencia'].touched && f['experiencia'].invalid">
+        <small *ngIf="f['experiencia'].errors?.['required']">La experiencia es obligatoria.</small>
+        <small *ngIf="f['experiencia'].errors?.['minlength']">Debe contener al menos 10 caracteres.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="celular">Número de celular:</label>
+      <input id="celular" formControlName="celular" type="tel" />
+      <div *ngIf="f['celular'].touched && f['celular'].invalid">
+        <small *ngIf="f['celular'].errors?.['required']">El celular es obligatorio.</small>
+        <small *ngIf="f['celular'].errors?.['pattern']">Debe tener exactamente 10 dígitos.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="fecha">Fecha de evaluación:</label>
+      <input id="fecha" formControlName="fecha" type="date" [attr.min]="hoy" />
+      <div *ngIf="f['fecha'].touched && f['fecha'].invalid">
+        <small *ngIf="f['fecha'].errors?.['required']">La fecha es obligatoria.</small>
+        <small *ngIf="f['fecha'].errors?.['invalidDate']">La fecha no puede estar en el pasado.</small>
+      </div>
+    </div>
+
+    <div>
+      <label><strong>¿En qué áreas te especializas?</strong></label>
+      <div class="checkbox-group">
+        <label *ngFor="let especialidad of especialidades">
+          <input
+            type="checkbox"
+            [value]="especialidad"
+            (change)="onCheckboxChange($event)"
+            [checked]="especialidadesSeleccionadas.includes(especialidad)"
+          />
+          {{ especialidad }}
+        </label>
+      </div>
+      <div *ngIf="especialidadesInvalidas()">
+        <small style="color: red;">Debes seleccionar al menos una especialidad.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="entrenadorForm.invalid">Registrar aplicación</button>
+  </form>
+</div>
+
+<hr />
+
+<!-- VISTA DE ADMINISTRACIÓN -->
+<div *ngIf="esAdmin" class="admin-section">
+  <h2>Consultas Recibidas</h2>
+  <table *ngIf="consultasGuardadas.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Tipo</th>
+        <th>Mensaje</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of consultasGuardadas; index as i">
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.telefono }}</td>
+        <td>{{ item.tipo }}</td>
+        <td>{{ item.mensaje }}</td>
+        <td>
+          <button (click)="editarConsulta(i)">Editar</button>
+          <button (click)="eliminarConsulta(i)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="consultasGuardadas.length === 0">No hay consultas registradas.</p>
+
+  <h2>Aplicaciones de Entrenadores</h2>
+  <table *ngIf="aplicacionesGuardadas.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Celular</th>
+        <th>Fecha</th>
+        <th>Especialidades</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let app of aplicacionesGuardadas; index as i">
+        <td>{{ app.nombre }}</td>
+        <td>{{ app.celular }}</td>
+        <td>{{ app.fecha }}</td>
+        <td>{{ app.especialidades.join(', ') }}</td>
+        <td>
+          <button (click)="editarAplicacion(i)">Editar</button>
+          <button (click)="eliminarAplicacion(i)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="aplicacionesGuardadas.length === 0">No hay aplicaciones registradas.</p>
+</div>

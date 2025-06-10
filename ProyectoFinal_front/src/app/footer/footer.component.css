@@ -1,0 +1,30 @@
+.footer-container {
+    background: linear-gradient(90deg, #000000 0%, #333333 100%);
+    color: #ffffff;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 2px solid green;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.7);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+  }
+  
+  .footer-container a {
+    color: #ffffff;
+    margin: 0 15px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 1.5rem;
+  }
+  
+  .footer-container a:hover {
+    color: green;
+  }
+  
+  .footer-container p {
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+  }
+  

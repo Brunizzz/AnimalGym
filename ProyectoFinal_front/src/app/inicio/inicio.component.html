@@ -1,0 +1,53 @@
+<!-- Incluye en tu index.html esta fuente moderna -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+<div class="bg-black text-green-400 min-h-screen font-sans">
+  <!-- Hero Section -->
+  <div class="relative w-full h-screen bg-cover bg-center flex items-center justify-center text-center" style="background-image: url('/assets/gym-hero.jpg');">
+    <div class="bg-black/70 backdrop-blur-lg p-10 rounded-2xl shadow-2xl animate-fade-in">
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-widest text-green-500 mb-4 uppercase">
+        Bienvenidos a <br> <span class="text-white">Fitness Animal Gym</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-300 mb-6 font-light">El lugar donde se forjan los campeones</p>
+      
+      <!-- Botón de enrutamiento -->
+      <button class="btn-join" [routerLink]="['/login']">Inicia Sesion</button>
+      
+    </div>
+  </div>
+  <br>
+  <br>
+  <!-- Carousel -->
+  <div class="container mx-auto py-16 px-4">
+    <div id="gymCarousel" class="carousel slide shadow-2xl rounded-2xl overflow-hidden" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="gym1.png" class="d-block w-100 rounded-2xl" alt="Instalaciones Modernas">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Instalaciones Modernas</h3>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="gym2.png" class="d-block w-100 rounded-2xl" alt="Entrenadores Expertos">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Entrenadores Expertos</h3>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="gym3.png" class="d-block w-100 rounded-2xl" alt="Clases Grupales">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>Clases Grupales</h3>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#gymCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#gymCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </div>
+</div>

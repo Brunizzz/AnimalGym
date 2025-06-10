@@ -1,0 +1,141 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+:host {
+  display: block;
+  background-color: #000000;
+  color: #00FF88;
+  padding: 2rem;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título principal */
+#titulo {
+  background-color: #333333;
+  border-left: 6px solid #00FF88;
+  text-align: center;
+}
+
+#titulo h1 {
+  color: #00FF88;
+  font-weight: bold;
+}
+
+/* Título de tabla */
+.tabla-titulo {
+  color: #00FF88;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.tabla-titulo::after {
+  content: '';
+  display: block;
+  margin: 0.5rem auto 0;
+  width: 100px;
+  height: 3px;
+  background-color: #00FF88;
+  border-radius: 10px;
+}
+
+/* Filtro */
+.filtro-input {
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: #333333;
+  border: 2px solid #00FF88;
+  color: #00FF88;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.filtro-input:focus {
+  border-color: #00ffaa;
+  outline: none;
+}
+
+/* Tabla */
+.tabla-personalizada {
+  width: 100%;
+  background-color: #000000;
+  color: #00FF88;
+  border-collapse: collapse;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tabla-personalizada thead {
+  background-color: #333333;
+  color: #00FF88;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.tabla-personalizada th,
+.tabla-personalizada td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #00FF88;
+}
+
+.tabla-personalizada tbody tr:hover {
+  background-color: #1a1a1a;
+  transition: background 0.3s ease;
+}
+
+/* Imagen */
+.tabla-personalizada img {
+  width: 100px;
+  height: auto;
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.tabla-personalizada tr:hover img {
+  transform: scale(1.05);
+}
+
+/* Spinner de carga */
+.spinner-border {
+  border-color: #00FF88 !important;
+  border-right-color: transparent !important;
+}
+
+.text-muted {
+  color: #00FF88 !important;
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+  .tabla-personalizada thead {
+    display: none;
+  }
+
+  .tabla-personalizada,
+  .tabla-personalizada tbody,
+  .tabla-personalizada tr,
+  .tabla-personalizada td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabla-personalizada td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .tabla-personalizada td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    top: 0.75rem;
+    font-weight: bold;
+    color: #00FF88;
+    text-align: left;
+  }
+}

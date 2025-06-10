@@ -1,0 +1,101 @@
+/* about.component.css */
+:host {
+    display: block;
+  }
+  
+  /* Estilos generales */
+  .text-neon {
+    color: #00FF88;
+  }
+  
+  .bg-neon {
+    background-color: #00FF88;
+  }
+  
+  .bg-dark {
+    background-color: #333333 !important;
+  }
+  
+  .bg-black {
+    background-color: #000000;
+  }
+  
+  /* Sección About */
+  .about-section {
+    min-height: 100vh;
+  }
+  
+  .divider {
+    height: 3px;
+    width: 100px;
+  }
+  
+  /* Tarjetas de equipo */
+  .team-card {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 255, 136, 0.1);
+  }
+  
+  .team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+  }
+  
+  .card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-img-top {
+    transition: transform 0.5s ease;
+    height: 250px;
+    object-fit: cover;
+  }
+  
+  .team-card:hover .card-img-top {
+    transform: scale(1.05);
+  }
+  
+  .img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  }
+  
+  .member-id {
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  .social-links {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .team-card:hover .social-links {
+    opacity: 1;
+  }
+  
+  .social-links a {
+    transition: color 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    color: #00FF88 !important;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card-img-top {
+      height: 200px;
+    }
+    
+    .social-links {
+      opacity: 1;
+    }
+  }

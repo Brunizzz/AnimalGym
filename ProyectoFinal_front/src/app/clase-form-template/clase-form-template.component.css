@@ -1,0 +1,166 @@
+:host {
+  display: block;
+  background-color: #000000;
+  color: #00FF88;
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+}
+
+/* Títulos */
+h2 {
+  color: #00FF88;
+  border-bottom: 2px solid #00FF88;
+  padding-bottom: 0.3rem;
+  margin-top: 2rem;
+}
+
+/* Formularios generales */
+.form-style {
+  background-color: #333333;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.form-style label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #00FF88;
+}
+
+.form-style input,
+.form-style select,
+.form-style textarea {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #000000;
+  color: #00FF88;
+  border: 1px solid #00FF88;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.form-style input:focus,
+.form-style textarea:focus,
+.form-style select:focus {
+  outline: none;
+  border-color: #00ff88;
+  box-shadow: 0 0 5px #00ff88;
+}
+
+/* Botones */
+button {
+  background-color: #00FF88;
+  color: #000000;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+button:hover {
+  background-color: #00cc6a;
+}
+
+/* Errores */
+small {
+  color: #ff8080;
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Checkboxes */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  background-color: #222;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #00FF88;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-group input {
+  margin-right: 5px;
+}
+
+/* Admin login */
+.admin-login {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+.admin-login input {
+  margin-right: 0.5rem;
+  background-color: #000;
+  color: #00FF88;
+  border: 1px solid #00FF88;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* Panel admin */
+.admin-section {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.admin-panel {
+  margin-bottom: 1rem;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #333;
+  color: #00FF88;
+  margin-bottom: 2rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #00FF88;
+  text-align: left;
+}
+
+th {
+  background-color: #222;
+}
+
+/* Línea divisoria */
+hr {
+  border: none;
+  height: 1px;
+  background-color: #00FF88;
+  margin: 2rem 0;
+}
+
+/* Estilo para formulario en modo edición */
+.editando {
+  border: 2px dashed #00FF88;
+  padding: 1rem;
+  background-color: #222;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+}

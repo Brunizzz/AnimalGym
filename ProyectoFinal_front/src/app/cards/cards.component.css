@@ -1,0 +1,31 @@
+body {
+    background-color: #000000;
+  }
+  
+  .plan-card {
+    background-color: #333333;
+    border: 2px solid #00FF88;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px #00FF88;
+  }
+  
+  .text-neon {
+    color: #00FF88;
+  }
+  
+  .btn-neon {
+    background-color: #00FF88;
+    color: #000000;
+    font-weight: bold;
+    border-radius: 10px;
+  }
+  
+  .btn-neon:hover {
+    background-color: #00cc6f;
+  }
+  
