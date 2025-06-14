@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DomseguroPipe } from '../domseguro.pipe';
+import { DomseguroPipe } from '../../domseguro.pipe';
 
 @Component({
   selector: 'app-pipes',
