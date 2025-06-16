@@ -1,14 +1,12 @@
-/* Fondo negro sólido y texto neón */
- body {
+body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #000000 !important; /* Fondo completamente negro */
+  background-color: #000000 !important;
   color: #00FF88;
   font-family: Arial, sans-serif;
 }
 
-/* Asegura que el root y componente principal no sobreescriban fondo */
 app-root,
 app-clase-form-template {
   display: block;
