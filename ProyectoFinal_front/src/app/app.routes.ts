@@ -7,11 +7,20 @@ import { Productos } from './components/productos/productos';
 import { Contacto } from './components/contacto/contacto';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-    { path: 'inicio', component: Inicio },
-    { path: 'login', component: Login },
-    { path: 'instalaciones', component: Instalaciones },
-    { path: 'nosotros', component: Nosotros },
-    { path: 'productos', component: Productos },
-    { path: 'contacto', component: Contacto }
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: 'inicio', component: Inicio },
+  { path: 'login', component: Login },
+  { path: 'instalaciones', component: Instalaciones },
+  { path: 'nosotros', component: Nosotros },
+  { path: 'productos', component: Productos },
+  { path: 'contacto', component: Contacto },
+
+  // 👇 Nueva ruta al componente BloqueoUsuariosComponent
+  {
+    path: 'bloqueo-usuarios',
+    loadComponent: () =>
+      import('./components/bloqueo-usuarios/bloqueo-usuarios').then(
+        m => m.BloqueoUsuariosComponent
+      )
+  }
 ];
