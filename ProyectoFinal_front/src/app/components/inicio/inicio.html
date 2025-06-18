@@ -7,7 +7,7 @@
         Bienvenidos a <br> <span class="text-white">Fitness Animal Gym</span>
       </h1>
       <p class="text-xl md:text-2xl text-white mb-8 font-light">El lugar donde se forjan los campeones</p>
-      <button class="btn-join" [routerLink]="['/login']">Inicia Sesion</button>
+      <button class="btn-join" [routerLink]="['/login']" [disabled]="isLoggedIn" >Inicia Sesion</button>
     </div>
   </div>
   <br>

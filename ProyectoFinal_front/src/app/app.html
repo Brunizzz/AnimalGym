@@ -1,6 +1,15 @@
-<app-header> </app-header>
+<ng-container *ngIf="adminUser?.tipo === 'admin'; else defaultHeader">
+  <app-header-admin></app-header-admin>
+</ng-container>
+
+<ng-template #defaultHeader>
+  <app-header></app-header>
+</ng-template>
+
 <main class="content-container">
   <router-outlet></router-outlet>
 </main>
-<app-subscripciones></app-subscripciones>
+
+<app-subscripciones *ngIf="!adminUser || adminUser?.tipo !== 'admin'"></app-subscripciones>
+
 <app-footer></app-footer>

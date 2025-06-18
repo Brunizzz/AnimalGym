@@ -11,16 +11,5 @@
       <a routerLink="/productos" class="nav-link" routerLinkActive="active">Servicios</a>
       <a routerLink="/contacto" class="nav-link" routerLinkActive="active">Contacto y Socios</a>
     </nav>
-
-    @if (adminUser) {
-      <div class="admin-bar" aria-label="Barra de administración">
-        <span class="admin-text">
-          Bienvenido, <strong>{{ adminUser }}</strong>
-        </span>
-        <button class="btn-logout" (click)="logout()" aria-label="Cerrar sesión del administrador">
-          Cerrar sesión
-        </button>
-      </div>
-    }
   </div>
 </header>

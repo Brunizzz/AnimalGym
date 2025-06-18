@@ -16,7 +16,9 @@
       <td>{{ usuario.correo }}</td>
       <td>{{ usuario.tipo }}</td>
       <td>{{ usuario.estado ? 'Activo' : 'Bloqueado' }}</td>
-      <td>{{ usuario.fechaRegistro?.toDate ? (usuario.fechaRegistro.toDate() | date:'short') : (usuario.fechaRegistro | date:'short') }}</td>
+      <td>
+        {{ usuario.fechaRegistro ? (usuario.fechaRegistro | date:'short') : 'Sin fecha' }}
+      </td>
       <td>
         <button (click)="toggleEstado(usuario)">
           {{ usuario.estado ? 'Bloquear' : 'Desbloquear' }}

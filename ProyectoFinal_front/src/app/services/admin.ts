@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private admins = [
-    { username: 'admin1', password: 'pass123', nombre: 'Bruno Muñoz' },
-    { username: 'admin2', password: 'admin456', nombre: 'Sebastian Valdivia' },
-    { username: 'admin3', password: 'gymadmin', nombre: 'Miguel Rodriguez' }
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/usuarios';
 
   private adminKey = 'currentAdmin';
   private currentAdmin: any = null;
@@ -20,14 +19,22 @@ export class AdminService {
     }
   }
 
-  login(username: string, password: string): boolean {
-    const admin = this.admins.find(a => a.username === username && a.password === password);
-    if (admin) {
-      this.currentAdmin = admin;
-      localStorage.setItem(this.adminKey, JSON.stringify(admin));
-      return true;
-    }
-    return false;
+  login(nombre: string, contraseña: string): Observable<boolean> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(usuarios => {
+        const admin = usuarios.find(u =>
+          u.tipo === 'admin' &&
+          u.nombre === nombre &&
+          u.contraseña === contraseña
+        );
+        if (admin) {
+          this.currentAdmin = admin;
+          localStorage.setItem(this.adminKey, JSON.stringify(admin));
+          return true;
+        }
+        return false;
+      })
+    );
   }
 
   logout(): void {

@@ -18,13 +18,13 @@ export class Login {
   constructor(private router: Router, private adminService: AdminService) {}
 
   login() {
-    const success = this.adminService.login(this.username, this.password);
-
-    if (success) {
-      this.error = false;
-      this.router.navigate(['/']);
-    } else {
-      this.error = true;
-    }
+    this.adminService.login(this.username, this.password).subscribe(success => {
+      if (success) {
+        this.error = false;
+        this.router.navigate(['/']);
+      } else {
+        this.error = true;
+      }
+    });
   }
 }

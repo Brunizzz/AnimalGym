@@ -15,7 +15,6 @@ export const routes: Routes = [
   { path: 'productos', component: Productos },
   { path: 'contacto', component: Contacto },
 
-  // 👇 Nueva ruta al componente BloqueoUsuariosComponent
   {
     path: 'bloqueo-usuarios',
     loadComponent: () =>

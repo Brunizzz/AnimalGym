@@ -1,0 +1,23 @@
+<header class="header-container" role="banner">
+  <div class="container d-flex justify-content-between align-items-center py-3">
+    <a routerLink="/" class="brand d-flex align-items-center" aria-label="Ir al inicio">
+      <img src="logogym.jpg" alt="Logotipo de Alpha Fit" class="logo me-3">
+    </a>
+
+    <nav class="nav-links d-flex align-items-center" role="navigation" aria-label="Menú principal">
+      <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+      <a routerLink="/bloqueo-usuarios" class="nav-link" routerLinkActive="active">Bloqueos</a>
+    </nav>
+
+    @if (adminUser) {
+      <div class="admin-bar" aria-label="Barra de administración">
+        <span class="admin-text">
+          Bienvenido, <strong>{{ adminUser }}</strong>
+        </span>
+        <button class="btn-logout" (click)="logout()" aria-label="Cerrar sesión del administrador">
+          Cerrar sesión
+        </button>
+      </div>
+    }
+  </div>
+</header>
