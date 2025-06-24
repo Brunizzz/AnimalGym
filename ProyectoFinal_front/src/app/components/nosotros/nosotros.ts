@@ -10,10 +10,10 @@ import { CommonModule, NgFor } from '@angular/common';
 export class Nosotros {
   integrantes = [
     { 
-      id: 335362, 
-      nombre: 'EMILIANO JAHIR ', 
-      apellido: 'ESPINOZA HERRERA', 
-      foto: 'emi.jpeg',
+      id: 280023, 
+      nombre: 'BRUNO SANTIAGO ', 
+      apellido: 'MUÑOZ LÓPEZ', 
+      foto: 'bruno.jpg',
       especialidad: 'Entrenador Personal'
     },
     { 

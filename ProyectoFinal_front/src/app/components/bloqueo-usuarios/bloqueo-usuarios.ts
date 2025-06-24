@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './bloqueo-usuarios.html',
   styleUrls: ['./bloqueo-usuarios.css']
 })
-export class BloqueoUsuariosComponent implements OnInit {
+export class BloqueoUsuarios implements OnInit {
   private http = inject(HttpClient);
   usuarios: any[] = [];
   private apiUrl = 'http://localhost:3000/api/usuarios';
