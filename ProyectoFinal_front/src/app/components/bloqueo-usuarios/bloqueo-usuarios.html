@@ -1,5 +1,11 @@
 <h2>Lista de Usuarios</h2>
-<table border="1" cellpadding="8" cellspacing="0">
+
+<div *ngIf="usuarios.length === 0" class="mensaje-vacio">
+  No hay usuarios registrados para mostrar.
+</div>
+
+
+<table *ngIf="usuarios.length > 0" border="1" cellpadding="8" cellspacing="0">
   <thead>
     <tr>
       <th>Nombre</th>

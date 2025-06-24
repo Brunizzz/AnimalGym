@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../services/user'; 
 
 @Component({
-  selector: 'app-header-admin',
+  selector: 'app-header-cliente',
   imports: [CommonModule, RouterLink, RouterModule],
-  templateUrl: './header-admin.html',
-  styleUrl: './header-admin.css'
+  templateUrl: './header-cliente.html',
+  styleUrl: './header-cliente.css'
 })
-export class HeaderAdmin {
+export class HeaderCliente {
   adminUser: string | null = null;
 
   constructor(public user: User, private router: Router) {}

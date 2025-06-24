@@ -1,0 +1,43 @@
+.accesibilidad-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  text-align: right;
+}
+
+.icono {
+  background-color: #00ff88;
+  color: #000;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ff88;
+}
+
+.panel-opciones {
+  margin-top: 0.5rem;
+  background-color: #111;
+  color: #00ff88;
+  padding: 1rem;
+  border: 1px solid #00ff88;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00ff88;
+}
+
+.panel-opciones label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.alto-contraste {
+  background-color: #000 !important;
+  color: #ff0 !important;
+}
+
+.alto-contraste a {
+  color: #0ff !important;
+}

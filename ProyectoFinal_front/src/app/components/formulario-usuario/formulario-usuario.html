@@ -1,0 +1,51 @@
+<div class="form-container">
+  <h2>{{ isEditMode ? 'Editar' : 'Agregar' }} Usuario</h2>
+
+  <form [formGroup]="usuarioForm" (ngSubmit)="guardar()">
+    <div>
+      <label>Nombre</label>
+      <input type="text" formControlName="nombre" />
+      <div class="error" *ngIf="campoInvalido('nombre')">Nombre requerido (mínimo 3 caracteres).</div>
+    </div>
+
+    <div>
+      <label>Correo</label>
+      <input type="email" formControlName="correo" />
+      <div class="error" *ngIf="campoInvalido('correo')">Correo inválido.</div>
+    </div>
+
+    <div>
+      <label>Contraseña</label>
+      <input type="password" formControlName="contraseña" />
+      <div class="error" *ngIf="campoInvalido('contraseña')">Mínimo 6 caracteres.</div>
+    </div>
+
+    <div>
+      <label>Tipo</label>
+      <select formControlName="tipo">
+        <option value="">Seleccione</option>
+        <option value="admin">Administrador</option>
+        <option value="cliente">Cliente</option>
+      </select>
+      <div class="error" *ngIf="campoInvalido('tipo')">Tipo requerido.</div>
+    </div>
+
+    <div *ngIf="usuarioForm.get('tipo')?.value === 'cliente'">
+      <label>Tipo de Subscripción</label>
+      <select formControlName="subscripcion">
+        <option value="">Seleccione</option>
+        <option value="1">Subscripción 1</option>
+        <option value="2">Subscripción 2</option>
+        <option value="3">Subscripción 3</option>
+      </select>
+    </div>
+
+
+    <div>
+      <label><input type="checkbox" formControlName="estado" /> Usuario Activo</label>
+    </div>
+
+    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Agregar' }}</button>
+    <button type="button" (click)="cancelar()">Cancelar</button>
+  </form>
+</div>

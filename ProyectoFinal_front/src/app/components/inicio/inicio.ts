@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AdminService } from '../../services/admin';
+import { User } from '../../services/user';
 
 @Component({
   selector: 'app-inicio',
@@ -10,9 +10,9 @@ import { AdminService } from '../../services/admin';
   styleUrl: './inicio.css'
 })
 export class Inicio {
-  constructor(private adminService: AdminService) {}
+  constructor(private user: User) {}
 
   get isLoggedIn(): boolean {
-    return this.adminService.isLoggedIn();
+    return this.user.isLoggedIn();
   }
 }

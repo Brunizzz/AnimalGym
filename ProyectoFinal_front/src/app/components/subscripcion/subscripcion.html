@@ -1,0 +1,12 @@
+<h2>Tu Subscripción</h2>
+
+<div *ngIf="subscripcionInfo; else mensajeError">
+  <p><strong>Subscripción:</strong> {{ subscripcionInfo.subscripcion }}</p>
+  <p><strong>Descripción:</strong> {{ subscripcionInfo.descripcion }}</p>
+  <p><strong>Precio:</strong> ${{ subscripcionInfo.precio }}</p>
+  <p><strong>Duración:</strong> {{ subscripcionInfo.duracionDias }} días</p>
+</div>
+
+<ng-template #mensajeError>
+  <p>{{ error }}</p>
+</ng-template>

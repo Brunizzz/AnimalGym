@@ -1,1 +1,39 @@
-<p>agregar-usuarios works!</p>
+<div class="contenedor">
+  <h2>Gestión de Usuarios</h2>
+
+  <button (click)="agregarNuevoUsuario()">Agregar Usuario</button>
+
+  <div *ngIf="usuarios.length === 0" class="mensaje-vacio">
+    No hay usuarios registrados.
+  </div>
+
+  <table *ngIf="usuarios.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Tipo</th>
+        <th>Estado</th>
+        <th>Fecha Registro</th>
+        <th>Subscripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.tipo }}</td>
+        <td>{{ usuario.estado ? 'Activo' : 'Inactivo' }}</td>
+        <td>
+          {{ usuario.fechaRegistro ? (usuario.fechaRegistro | date:'short') : 'Sin fecha' }}
+        </td>
+        <td>{{ usuario.subscripcion || 'N/A' }}</td>
+        <td>
+          <button (click)="editarUsuario(usuario.id)">Editar</button>
+          <button (click)="eliminarUsuario(usuario.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -21,11 +21,17 @@ export class BloqueoUsuarios implements OnInit {
   cargarUsuarios() {
     this.http.get<any[]>(this.apiUrl).subscribe(data => {
       this.usuarios = data.map(usuario => {
-        let fecha = null;
+        let fecha = usuario.fechaRegistro;
 
-        const fr = usuario.fechaRegistro;
-        if (fr && typeof fr._seconds === 'number') {
-          fecha = new Date(fr._seconds * 1000);
+        // Si viene de Firebase como Timestamp
+        if (fecha && fecha._seconds) {
+          fecha = new Date(fecha._seconds * 1000);
+        }
+
+        // Si viene como string o número (desde tu app)
+        else if (typeof fecha === 'string' || typeof fecha === 'number') {
+          const parsed = new Date(fecha);
+          fecha = isNaN(parsed.getTime()) ? null : parsed;
         }
 
         return { ...usuario, fechaRegistro: fecha };

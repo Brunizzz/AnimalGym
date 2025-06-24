@@ -1,7 +1,11 @@
 <h2>Lista de Productos</h2>
 <button (click)="agregarProducto()">Agregar Producto</button>
 
-<table border="1" cellpadding="8" cellspacing="0">
+<div *ngIf="productos.length === 0" class="mensaje-vacio">
+  No hay productos disponibles para mostrar.
+</div>
+
+<table *ngIf="productos.length > 0" border="1" cellpadding="8" cellspacing="0">
   <thead>
     <tr>
       <th>Nombre</th>

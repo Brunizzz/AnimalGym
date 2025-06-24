@@ -1,0 +1,9 @@
+<h2>Resumen de Compra</h2>
+<ul *ngIf="carrito.length > 0">
+<li *ngFor="let item of carrito">
+    {{ item.producto.nombre }} (x{{ item.cantidad }}) - 
+    ${{ item.producto.precio * item.cantidad | number:'1.2-2' }}
+</li>
+</ul>
+<p>Total: ${{ total | number:'1.2-2' }}</p>
+<button (click)="pagar()">Pagar</button>

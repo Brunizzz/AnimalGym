@@ -9,5 +9,12 @@
 
       <p>Creado con pasión por el bienestar y el rendimiento.</p>
       <p>PROYECTO UNIVERSITARIO TEC WEB</p>
+
+      <button class="accesibilidad-btn" (click)="mostrarAccesibilidad = !mostrarAccesibilidad">
+      <i class="fas fa-universal-access"></i> Accesibilidad
+      </button>
+
+      <app-accesibilidad *ngIf="mostrarAccesibilidad"></app-accesibilidad>
+
     </div>
 </footer>

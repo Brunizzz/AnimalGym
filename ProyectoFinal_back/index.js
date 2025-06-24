@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./config/firebase');
+const { enviarCorreoBienvenida } = require('./mailer');
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,47 @@ app.get('/api/usuarios', async (req, res) => {
     const snapshot = await db.collection('usuarios').get();
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Eliminar usuario
+app.delete('/api/usuarios/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await db.collection('usuarios').doc(id).delete();
+    res.json({ message: 'Usuario eliminado correctamente' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Agregar usuario
+app.post('/api/usuarios', async (req, res) => {
+  try {
+    const nuevoUsuario = req.body;
+    const ref = await db.collection('usuarios').add(nuevoUsuario);
+
+    // Enviar correo
+    if (nuevoUsuario.correo && nuevoUsuario.nombre) {
+      enviarCorreoBienvenida(nuevoUsuario.correo, nuevoUsuario.nombre)
+        .then(() => console.log('Correo enviado correctamente'))
+        .catch(err => console.error('Error al enviar correo:', err));
+    }
+
+    res.status(201).json({ id: ref.id, ...nuevoUsuario });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Actualizar usuario
+app.put('/api/usuarios/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await db.collection('usuarios').doc(id).update(req.body);
+    res.json({ message: 'Usuario actualizado correctamente' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -97,6 +139,39 @@ app.get('/api/productos/:id', async (req, res) => {
     const doc = await db.collection('productos').doc(id).get();
     if (!doc.exists) return res.status(404).json({ error: 'Producto no encontrado' });
     res.json({ id: doc.id, ...doc.data() });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Registrar una compra
+app.post('/api/compras-productos', async (req, res) => {
+  try {
+    const { idUsuario, productos, total } = req.body;
+
+    const compraRef = db.collection('comprasProductos').doc();
+    await compraRef.set({
+      idUsuario: `/usuarios/${idUsuario}`,
+      fecha: new Date(),
+      productos: productos.map(p => ({
+        producto: `/productos/${p.id}`,
+        cantidad: p.cantidad
+      })),
+      total
+    });
+
+    res.status(201).json({ message: 'Compra registrada correctamente' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Obtener todas las subscripciones
+app.get('/api/subscripciones', async (req, res) => {
+  try {
+    const snapshot = await db.collection('subscripciones').get();
+    const subs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(subs);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

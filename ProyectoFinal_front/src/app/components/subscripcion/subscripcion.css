@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  background-color: #000000;
+  color: #00FF88;
+  font-family: 'Arial', sans-serif;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #00FF88;
+}
+
+h2 {
+  text-align: center;
+  border-bottom: 2px solid #00FF88;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}

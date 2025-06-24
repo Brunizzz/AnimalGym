@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
 import { HeaderAdmin } from './components/header-admin/header-admin';
+import { HeaderCliente } from './components/header-cliente/header-cliente';
 import { Subscripciones } from "./components/subscripciones/subscripciones";
 import { Footer } from './components/footer/footer';
-import { AdminService } from './services/admin';
+import { User } from './services/user'; 
 import { Router, NavigationEnd } from '@angular/router';
 import { NgIf } from '@angular/common';
 
@@ -14,23 +15,24 @@ import { NgIf } from '@angular/common';
     NgIf,
     RouterOutlet, 
     Header,
-    HeaderAdmin, 
+    HeaderAdmin,
+    HeaderCliente, 
     Subscripciones, 
     Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  adminUser: any = null;
+  usuario: any = null;
 
-  constructor(private adminService: AdminService, private router: Router) {}
+  constructor(private user: User, private router: Router) {}
 
   ngOnInit() {
-    this.adminUser = this.adminService.getAdmin();
+    this.usuario = this.user.getUsuario();
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.adminUser = this.adminService.getAdmin();
+        this.usuario = this.user.getUsuario();
       }
     });
   }

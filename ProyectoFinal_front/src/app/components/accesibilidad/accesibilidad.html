@@ -1,0 +1,34 @@
+<div class="accesibilidad-wrapper">
+  <button (click)="toggleOpciones()" aria-label="Opciones de accesibilidad" class="icono">
+    ♿
+  </button>
+
+  <div *ngIf="mostrarOpciones" class="panel-opciones">
+    <label>
+      <input type="checkbox" (change)="activarProtectorPantalla($event)"> Protector de Pantalla
+    </label>
+
+    <label>
+      <input type="checkbox" (change)="activarContraste($event)"> Alto Contraste
+    </label>
+
+    <label>
+    Escala de texto:
+    <select (change)="cambiarEscala($event)">
+        <option value="1">Normal</option>
+        <option value="1.2">Mediana</option>
+        <option value="1.5">Grande</option>
+    </select>
+    </label>
+
+    <label>
+    Tipo de letra:
+    <select (change)="cambiarFuente($event)">
+        <option value="Arial, sans-serif">Arial</option>
+        <option value="'Courier New', monospace">Courier New</option>
+        <option value="'Comic Sans MS', cursive">Comic Sans</option>
+    </select>
+    </label>
+
+  </div>
+</div>

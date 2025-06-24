@@ -12,3 +12,29 @@ app-clase-form-template {
   display: block;
   background-color: transparent;
 }
+
+body.alto-contraste {
+  background-color: #000 !important;
+  color: #00ff00 !important;
+}
+
+body.alto-contraste a {
+  color: #00ff00 !important;
+}
+
+body.alto-contraste button {
+  background-color: #000 !important;
+  color: #00ff00 !important;
+  border: 1px solid #00ff00 !important;
+}
+
+#protectorPantalla {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: 9999;
+  opacity: 0.95;
+}
