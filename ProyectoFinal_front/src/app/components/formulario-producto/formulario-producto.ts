@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-formulario-producto',
@@ -64,16 +65,39 @@ export class FormularioProducto implements OnInit {
 
     if (this.isEditMode) {
       this.http.put(`http://localhost:3000/api/productos/${this.idProducto}`, producto).subscribe(() => {
-        alert('Producto actualizado');
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto actualizado',
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.router.navigate(['/agregar-productos']);
+      }, () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo actualizar el producto.'
+        });
       });
     } else {
       this.http.post(`http://localhost:3000/api/productos`, producto).subscribe(() => {
-        alert('Producto agregado');
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto agregado',
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.router.navigate(['/agregar-productos']);
+      }, () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo agregar el producto.'
+        });
       });
     }
   }
+
 
   cancelar() {
     this.router.navigate(['/agregar-productos']);

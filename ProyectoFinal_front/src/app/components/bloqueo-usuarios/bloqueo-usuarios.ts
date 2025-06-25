@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bloqueo-usuarios',
@@ -41,18 +42,49 @@ export class BloqueoUsuarios implements OnInit {
 
   toggleEstado(usuario: any) {
     const nuevoEstado = !usuario.estado;
-    const motivo = prompt(`¿Motivo para ${nuevoEstado ? 'desbloquear' : 'bloquear'} al usuario?`);
-    const realizadoPor = 'admin001';
+    const accion = nuevoEstado ? 'desbloquear' : 'bloquear';
 
-    if (!motivo) return;
+    Swal.fire({
+      title: `¿Deseas ${accion} al usuario?`,
+      input: 'text',
+      inputLabel: `Motivo para ${accion}`,
+      inputPlaceholder: 'Escribe el motivo aquí...',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El motivo es obligatorio.';
+        }
+        return null;
+      },
+      showCancelButton: true,
+      confirmButtonText: `Confirmar ${accion}`,
+      cancelButtonText: 'Cancelar',
+      icon: 'warning'
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        const motivo = result.value;
+        const realizadoPor = 'admin001';
 
-    this.http.put(`${this.apiUrl}/${usuario.id}/bloqueo`, {
-      estado: nuevoEstado,
-      motivo,
-      realizadoPor
-    }).subscribe(() => {
-      usuario.estado = nuevoEstado;
-      alert(`Usuario ${nuevoEstado ? 'desbloqueado' : 'bloqueado'} correctamente`);
+        this.http.put(`${this.apiUrl}/${usuario.id}/bloqueo`, {
+          estado: nuevoEstado,
+          motivo,
+          realizadoPor
+        }).subscribe(() => {
+          usuario.estado = nuevoEstado;
+          Swal.fire({
+            icon: 'success',
+            title: `Usuario ${accion} correctamente`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }, () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `No se pudo ${accion} al usuario.`
+          });
+        });
+      }
     });
   }
+
 }

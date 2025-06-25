@@ -20,6 +20,14 @@
       <div class="error" *ngIf="campoInvalido('contraseña')">Mínimo 6 caracteres.</div>
     </div>
 
+    <div *ngIf="!isEditMode">
+      <label>Confirmar Contraseña</label>
+      <input type="password" formControlName="confirmarContraseña" />
+      <div class="error" *ngIf="usuarioForm.errors?.['passwordMismatch'] && usuarioForm.get('confirmarContraseña')?.touched">
+        Las contraseñas no coinciden.
+      </div>
+    </div>
+
     <div>
       <label>Tipo</label>
       <select formControlName="tipo">
@@ -39,7 +47,6 @@
         <option value="3">Subscripción 3</option>
       </select>
     </div>
-
 
     <div>
       <label><input type="checkbox" formControlName="estado" /> Usuario Activo</label>

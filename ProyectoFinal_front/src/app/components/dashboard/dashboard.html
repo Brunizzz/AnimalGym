@@ -1,0 +1,13 @@
+<div class="dashboard">
+  <h2>Resumen de Usuarios</h2>
+  <div class="chart-container">
+    <div class="chart-box">
+      <h3>Usuarios por Tipo</h3>
+      <canvas baseChart [data]="tipoChartData" [type]="'pie'" [options]="chartOptions"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Usuarios por Subscripción</h3>
+      <canvas baseChart [data]="subscripcionChartData" [type]="'bar'" [options]="chartOptions"></canvas>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,8 @@
   <p><strong>Duración:</strong> {{ subscripcionInfo.duracionDias }} días</p>
 </div>
 
+<qrcode *ngIf="qrData" [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+
 <ng-template #mensajeError>
   <p>{{ error }}</p>
 </ng-template>

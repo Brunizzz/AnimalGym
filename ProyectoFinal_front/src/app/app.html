@@ -1,21 +1,24 @@
-<ng-container *ngIf="usuario?.tipo === 'admin'; else noAdmin">
-  <app-header-admin></app-header-admin>
-</ng-container>
+<app-loading *ngIf="loading"></app-loading>
 
-<ng-template #noAdmin>
-  <ng-container *ngIf="usuario?.tipo === 'cliente'; else headerDefault">
-    <app-header-cliente></app-header-cliente>
+<ng-container *ngIf="!loading">
+  <ng-container *ngIf="usuario?.tipo === 'admin'; else noAdmin">
+    <app-header-admin></app-header-admin>
   </ng-container>
-</ng-template>
 
-<ng-template #headerDefault>
-  <app-header></app-header>
-</ng-template>
+  <ng-template #noAdmin>
+    <ng-container *ngIf="usuario?.tipo === 'cliente'; else headerDefault">
+      <app-header-cliente></app-header-cliente>
+    </ng-container>
+  </ng-template>
 
-<main class="content-container">
-  <router-outlet></router-outlet>
-</main>
+  <ng-template #headerDefault>
+    <app-header></app-header>
+  </ng-template>
 
-<app-subscripciones *ngIf="!usuario || usuario?.tipo !== 'admin'"></app-subscripciones>
+  <main class="content-container">
+    <router-outlet></router-outlet>
+  </main>
 
-<app-footer></app-footer>
+  <app-subscripciones *ngIf="!usuario || usuario?.tipo !== 'admin'"></app-subscripciones>
+  <app-footer></app-footer>
+</ng-container>

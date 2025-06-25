@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-usuarios',
@@ -43,12 +44,32 @@ export class AgregarUsuariosComponent implements OnInit {
   }
 
   eliminarUsuario(id: string) {
-    if (confirm('¿Seguro que deseas eliminar este usuario?')) {
-      this.http.delete(`http://localhost:3000/api/usuarios/${id}`).subscribe(() => {
-        alert('Usuario eliminado');
-        this.obtenerUsuarios();
-      });
-    }
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará al usuario permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(`http://localhost:3000/api/usuarios/${id}`).subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Usuario eliminado',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.obtenerUsuarios();
+        }, () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo eliminar el usuario.'
+          });
+        });
+      }
+    });
   }
 
   agregarNuevoUsuario() {

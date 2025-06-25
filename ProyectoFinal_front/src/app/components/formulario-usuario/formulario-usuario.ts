@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -26,9 +27,12 @@ export class FormularioUsuario implements OnInit {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       correo: ['', [Validators.required, Validators.email]],
       contraseña: ['', [Validators.required, Validators.minLength(6)]],
+      confirmarContraseña: ['', this.isEditMode ? [] : Validators.required],
       tipo: ['', Validators.required],
       estado: [true],
       subscripcion: ['']
+    }, {
+      validators: this.passwordsMatch()
     });
 
     this.route.paramMap.subscribe(params => {
@@ -36,6 +40,9 @@ export class FormularioUsuario implements OnInit {
       this.isEditMode = !!this.idUsuario;
 
       if (this.isEditMode) {
+        this.usuarioForm.get('confirmarContraseña')?.clearValidators();
+        this.usuarioForm.get('confirmarContraseña')?.updateValueAndValidity();
+
         this.http.get<any[]>('http://localhost:3000/api/usuarios').subscribe(usuarios => {
           const usuario = usuarios.find(u => u.id === this.idUsuario);
           if (usuario) {
@@ -59,13 +66,35 @@ export class FormularioUsuario implements OnInit {
 
     if (this.isEditMode) {
       this.http.put(`http://localhost:3000/api/usuarios/${this.idUsuario}`, datos).subscribe(() => {
-        alert('Usuario actualizado');
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuario actualizado',
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.router.navigate(['/agregar-usuarios']);
+      }, () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo actualizar el usuario.'
+        });
       });
     } else {
       this.http.post('http://localhost:3000/api/usuarios', datos).subscribe(() => {
-        alert('Usuario agregado');
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuario agregado',
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.router.navigate(['/agregar-usuarios']);
+      }, () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo agregar el usuario.'
+        });
       });
     }
   }
@@ -77,5 +106,13 @@ export class FormularioUsuario implements OnInit {
   campoInvalido(campo: string): boolean {
     const control = this.usuarioForm.get(campo);
     return !!(control && control.invalid && control.touched);
+  }
+
+  passwordsMatch() {
+    return (form: FormGroup) => {
+      const pass = form.get('contraseña')?.value;
+      const confirm = form.get('confirmarContraseña')?.value;
+      return pass === confirm ? null : { passwordMismatch: true };
+    };
   }
 }

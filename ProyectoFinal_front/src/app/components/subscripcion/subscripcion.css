@@ -21,3 +21,11 @@ p {
   font-size: 1rem;
   margin-bottom: 0.75rem;
 }
+
+qrcode {
+  display: block;
+  margin: 1rem auto;
+  border: 1px solid #00FF88;
+  padding: 10px;
+  background: #000;
+}

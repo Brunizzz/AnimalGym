@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-productos',
@@ -25,13 +26,33 @@ export class AgregarProductosComponent implements OnInit {
   }
 
   eliminarProducto(id: string) {
-    if (confirm('¿Estás seguro de eliminar este producto?')) {
-      this.http.delete(`http://localhost:3000/api/productos/${id}`)
-        .subscribe(() => {
-          this.productos = this.productos.filter(p => p.id !== id);
-          alert('Producto eliminado');
-        });
-    }
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el producto permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.http.delete(`http://localhost:3000/api/productos/${id}`)
+          .subscribe(() => {
+            this.productos = this.productos.filter(p => p.id !== id);
+            Swal.fire({
+              icon: 'success',
+              title: 'Producto eliminado',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }, () => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo eliminar el producto.'
+            });
+          });
+      }
+    });
   }
 
   editarProducto(id: string) {

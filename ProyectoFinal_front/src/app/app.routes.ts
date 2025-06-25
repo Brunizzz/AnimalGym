@@ -11,6 +11,7 @@ import { FormularioUsuario } from './components/formulario-usuario/formulario-us
 import { CompraProductos } from './components/compra-productos/compra-productos';
 import { ResumenCompra } from './components/resumen-compra/resumen-compra';
 import { Subscripcion } from './components/subscripcion/subscripcion';
+import { Dashboard } from './components/dashboard/dashboard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'compra-productos', component: CompraProductos },
   { path: 'resumen-compra', component: ResumenCompra },
   { path: 'subscripcion', component: Subscripcion },
+  { path: 'dashboard', component: Dashboard },
 
   {
     path: 'nuevo-usuario',

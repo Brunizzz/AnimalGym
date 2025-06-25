@@ -177,6 +177,53 @@ app.get('/api/subscripciones', async (req, res) => {
   }
 });
 
+// Graficas
+// Total por tipo
+app.get('/api/reportes/usuarios-tipo', async (req, res) => {
+  try {
+    const snapshot = await db.collection('usuarios').get();
+    const conteo = { admin: 0, cliente: 0 };
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const tipo = data.tipo;
+      if (tipo === 'admin') conteo.admin++;
+      else if (tipo === 'cliente') conteo.cliente++;
+    });
+
+    res.json(conteo);
+  } catch (error) {
+    console.error('Error al obtener usuarios por tipo:', error);
+    res.status(500).json({ error: 'Error al obtener usuarios por tipo' });
+  }
+});
+
+// Total por suscripción (solo clientes con subscripción "1", "2" o "3")
+app.get('/api/reportes/suscripciones', async (req, res) => {
+  try {
+    const snapshot = await db.collection('usuarios').get();
+    const conteo = { '1': 0, '2': 0, '3': 0 };
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+
+      // Validar que es cliente y que subscripción es válida
+      if (
+        data.tipo === 'cliente' &&
+        typeof data.subscripcion === 'string' &&
+        ['1', '2', '3'].includes(data.subscripcion)
+      ) {
+        conteo[data.subscripcion]++;
+      }
+    });
+
+    res.json(conteo);
+  } catch (error) {
+    console.error('Error al obtener usuarios por suscripción:', error);
+    res.status(500).json({ error: 'Error al obtener usuarios por suscripción' });
+  }
+});
+
 //Servidor Node
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor Node escuchando en puerto ${PORT}`));
