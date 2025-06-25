@@ -12,6 +12,13 @@
       <input type="password" [(ngModel)]="password" name="password" required>
     </div>
 
+    <div class="captcha-container">
+      <re-captcha 
+        siteKey="6LdDlG0rAAAAAMoFcOvGjE-1c5bF1ZT7vfprksD2"
+        (resolved)="onCaptchaResolved($event)">
+      </re-captcha>
+    </div>
+
     <button type="submit">Ingresar</button>
   </form>
 

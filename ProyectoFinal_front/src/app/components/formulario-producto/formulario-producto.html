@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h2>{{ isEditMode ? 'Editar' : 'Agregar' }} Producto</h2>
+  <h2>{{ isEditMode() ? 'Editar' : 'Agregar' }} Producto</h2>
 
   <form [formGroup]="productoForm" (ngSubmit)="guardar()">
     <div>
@@ -46,7 +46,7 @@
       <label><input type="checkbox" formControlName="activo"> Producto Activo</label>
     </div>
 
-    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Agregar' }}</button>
+    <button type="submit">{{ isEditMode() ? 'Actualizar' : 'Agregar' }}</button>
     <button type="button" (click)="cancelar()">Cancelar</button>
   </form>
 </div>

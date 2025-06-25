@@ -77,25 +77,25 @@ export class ResumenCompra implements OnInit {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            items: this.carrito.map(item => ({
-              name: item.producto.nombre,
-              quantity: item.cantidad,
-              unit_amount: {
-                currency_code: 'MXN', //Moneda
-                value: item.producto.precio.toFixed(2) // Formato a 2 decimales
-              }
-            })),
             purchase_units: [{
               amount: {
-                currency_code: 'MXN', // Asegúrate de que la moneda coincida
-                value: this.total.toFixed(2), // Formato a 2 decimales
+                currency_code: 'MXN',
+                value: this.total.toFixed(2),
                 breakdown: {
-                    item_total: {
-                        currency_code: 'MXN',
-                        value: this.total.toFixed(2)
-                    }
+                  item_total: {
+                    currency_code: 'MXN',
+                    value: this.total.toFixed(2)
+                  }
                 }
-              }
+              },
+              items: this.carrito.map(item => ({
+                name: item.producto.nombre,
+                quantity: item.cantidad.toString(),
+                unit_amount: {
+                  currency_code: 'MXN',
+                  value: item.producto.precio.toFixed(2)
+                }
+              }))
             }]
           })
         })

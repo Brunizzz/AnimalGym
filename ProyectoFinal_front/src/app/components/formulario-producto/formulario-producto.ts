@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -18,9 +18,10 @@ export class FormularioProducto implements OnInit {
   router = inject(Router);
   http = inject(HttpClient);
 
+  isEditMode = signal(false);
+  idProducto = signal<string | null>(null);
+
   productoForm!: FormGroup;
-  isEditMode = false;
-  idProducto: string | null = null;
 
   ngOnInit() {
     this.productoForm = this.fb.group({
@@ -33,18 +34,18 @@ export class FormularioProducto implements OnInit {
     });
 
     this.route.paramMap.subscribe(params => {
-      this.idProducto = params.get('id');
-      this.isEditMode = !!this.idProducto;
+      const id = params.get('id');
+      this.idProducto.set(id);
+      this.isEditMode.set(!!id);
 
-      if (this.isEditMode) {
-        this.http.get<any>(`http://localhost:3000/api/productos/${this.idProducto}`).subscribe(prod => {
+      if (this.isEditMode()) {
+        this.http.get<any>(`http://localhost:3000/api/productos/${id}`).subscribe(prod => {
           if (prod) this.productoForm.patchValue(prod);
         });
       }
     });
   }
 
-  // ✅ Validador personalizado: no permitir palabras prohibidas
   prohibidoValidator(palabras: string[]) {
     return (control: AbstractControl): ValidationErrors | null => {
       const valor = control.value?.toLowerCase();
@@ -63,8 +64,8 @@ export class FormularioProducto implements OnInit {
 
     const producto = this.productoForm.value;
 
-    if (this.isEditMode) {
-      this.http.put(`http://localhost:3000/api/productos/${this.idProducto}`, producto).subscribe(() => {
+    if (this.isEditMode()) {
+      this.http.put(`http://localhost:3000/api/productos/${this.idProducto()}`, producto).subscribe(() => {
         Swal.fire({
           icon: 'success',
           title: 'Producto actualizado',
@@ -98,12 +99,10 @@ export class FormularioProducto implements OnInit {
     }
   }
 
-
   cancelar() {
     this.router.navigate(['/agregar-productos']);
   }
 
-  // ✅ Métodos para facilitar validaciones en el template
   campoInvalido(campo: string): boolean {
     const control = this.productoForm.get(campo);
     return !!(control && control.invalid && control.touched);

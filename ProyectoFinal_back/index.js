@@ -3,11 +3,32 @@ const cors = require('cors');
 const db = require('./config/firebase');
 const { enviarCorreoBienvenida } = require('./mailer');
 const paypalRoutes = require('./routes/paypal');
+const axios = require('axios');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(__dirname + '/dist/ProyectoFinal_front'));
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/dist/ProyectoFinal_front/index.html');
+});
+
+
+//Captcha
+async function verificarCaptcha(token) {
+  const secret = process.env.RECAPTCHA_SECRET;
+  const respuesta = await axios.post(`https://www.google.com/recaptcha/api/siteverify`, null, {
+    params: {
+      secret,
+      response: token
+    }
+  });
+
+  return respuesta.data.success;
+}
 
 //Usuarios
 //Obtener Usuarios
@@ -34,11 +55,18 @@ app.delete('/api/usuarios/:id', async (req, res) => {
 
 // Agregar usuario
 app.post('/api/usuarios', async (req, res) => {
+  const { captcha, ...nuevoUsuario } = req.body;
+
+  // Verificación del token de reCAPTCHA
+  const captchaVerificado = await verificarCaptcha(captcha);
+  if (!captchaVerificado) {
+    return res.status(400).json({ error: 'Captcha inválido o expirado.' });
+  }
+
   try {
-    const nuevoUsuario = req.body;
     const ref = await db.collection('usuarios').add(nuevoUsuario);
 
-    // Enviar correo
+    // Enviar correo si aplica
     if (nuevoUsuario.correo && nuevoUsuario.nombre) {
       enviarCorreoBienvenida(nuevoUsuario.correo, nuevoUsuario.nombre)
         .then(() => console.log('Correo enviado correctamente'))
@@ -50,6 +78,7 @@ app.post('/api/usuarios', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Actualizar usuario
 app.put('/api/usuarios/:id', async (req, res) => {

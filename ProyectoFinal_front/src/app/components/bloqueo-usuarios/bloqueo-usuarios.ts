@@ -50,40 +50,82 @@ export class BloqueoUsuarios implements OnInit {
       inputLabel: `Motivo para ${accion}`,
       inputPlaceholder: 'Escribe el motivo aquí...',
       inputValidator: (value) => {
-        if (!value) {
-          return 'El motivo es obligatorio.';
-        }
+        if (!value) return 'El motivo es obligatorio.';
         return null;
       },
       showCancelButton: true,
       confirmButtonText: `Confirmar ${accion}`,
       cancelButtonText: 'Cancelar',
       icon: 'warning'
-    }).then(result => {
-      if (result.isConfirmed && result.value) {
-        const motivo = result.value;
-        const realizadoPor = 'admin001';
+    }).then(motivoResult => {
+      if (motivoResult.isConfirmed && motivoResult.value) {
+        const motivo = motivoResult.value;
+        const realizadoPor = 'admin001'; // o el ID del admin logueado
 
-        this.http.put(`${this.apiUrl}/${usuario.id}/bloqueo`, {
-          estado: nuevoEstado,
-          motivo,
-          realizadoPor
-        }).subscribe(() => {
-          usuario.estado = nuevoEstado;
+        // Si se va a desbloquear, pedir nueva contraseña
+        if (nuevoEstado) {
           Swal.fire({
-            icon: 'success',
-            title: `Usuario ${accion} correctamente`,
-            showConfirmButton: false,
-            timer: 1500
+            title: 'Asignar nueva contraseña',
+            input: 'password',
+            inputLabel: 'Nueva contraseña para el usuario',
+            inputPlaceholder: 'Contraseña segura (mínimo 8 caracteres)',
+            inputAttributes: {
+              minlength: '8',
+              maxlength: '12'
+            },
+            inputValidator: (value) => {
+              if (!value) return 'Debes ingresar una contraseña.';
+              if (value.length < 8 || value.length > 12) return 'La contraseña debe tener entre 8 y 12 caracteres.';
+              if (!/[A-Z]/.test(value) || !/[a-z]/.test(value) || !/\d/.test(value)) {
+                return 'Debe incluir mayúsculas, minúsculas y números.';
+              }
+              return null;
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Asignar'
+          }).then(passResult => {
+            if (passResult.isConfirmed && passResult.value) {
+              const nuevaContraseña = passResult.value;
+
+              this.actualizarEstado(usuario.id, nuevoEstado, motivo, realizadoPor, nuevaContraseña, usuario);
+            }
           });
-        }, () => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: `No se pudo ${accion} al usuario.`
-          });
-        });
+        } else {
+          // Solo bloquear sin contraseña
+          this.actualizarEstado(usuario.id, nuevoEstado, motivo, realizadoPor, null, usuario);
+        }
       }
+    });
+  }
+
+  private actualizarEstado(id: string, estado: boolean, motivo: string, realizadoPor: string, contraseña: string | null, usuario: any) {
+    const payload: any = {
+      estado,
+      motivo,
+      realizadoPor
+    };
+
+    if (contraseña !== null) {
+      payload.contraseña = contraseña;
+    }
+
+    this.http.put(`${this.apiUrl}/${id}/bloqueo`, payload).subscribe(() => {
+      usuario.estado = estado;
+      if (contraseña !== null) usuario.contraseña = contraseña;
+
+      Swal.fire({
+        icon: 'success',
+        title: `Usuario ${estado ? 'desbloqueado' : 'bloqueado'} correctamente`,
+        text: contraseña ? `La nueva contraseña ha sido asignada.` : '',
+        showConfirmButton: false,
+        timer: 2500
+      });
+    }, () => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: `No se pudo ${estado ? 'desbloquear' : 'bloquear'} al usuario.`
+      });
     });
   }
 

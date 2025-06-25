@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-formulario-usuario',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, RecaptchaModule],
   templateUrl: './formulario-usuario.html',
   styleUrl: './formulario-usuario.css'
 })
@@ -17,6 +18,7 @@ export class FormularioUsuario implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
   http = inject(HttpClient);
+  captchaToken: string = '';
 
   usuarioForm!: FormGroup;
   isEditMode = false;
@@ -26,7 +28,7 @@ export class FormularioUsuario implements OnInit {
     this.usuarioForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       correo: ['', [Validators.required, Validators.email]],
-      contraseña: ['', [Validators.required, Validators.minLength(6)]],
+      contraseña: ['', [Validators.required, this.contraseñaFuerte()]],
       confirmarContraseña: ['', this.isEditMode ? [] : Validators.required],
       tipo: ['', Validators.required],
       estado: [true],
@@ -55,13 +57,52 @@ export class FormularioUsuario implements OnInit {
 
   guardar() {
     if (this.usuarioForm.invalid) {
-      this.usuarioForm.markAllAsTouched();
+    this.usuarioForm.markAllAsTouched();
+
+    const passControl = this.usuarioForm.get('contraseña');
+    const confirmControl = this.usuarioForm.get('confirmarContraseña');
+
+    if (passControl?.errors?.['contraseñaInvalida']) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Contraseña inválida',
+        html: `
+          <ul style="text-align: left;">
+            <li>Debe tener entre 8 y 12 caracteres</li>
+            <li>Al menos una letra mayúscula</li>
+            <li>Al menos una letra minúscula</li>
+            <li>Al menos un número</li>
+          </ul>
+        `
+      });
       return;
+    }
+
+    if (this.usuarioForm.errors?.['passwordMismatch'] && confirmControl?.touched) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Contraseñas no coinciden',
+        text: 'Asegúrate de que ambas contraseñas sean iguales.'
+      });
+      return;
+    }
+
+    if (!this.captchaToken) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Captcha requerido',
+        text: 'Verifica que no eres un robot.'
+      });
+      return;
+    }
+
+    return;
     }
 
     const datos = {
       ...this.usuarioForm.value,
-      fechaRegistro: this.isEditMode ? undefined : new Date()
+      fechaRegistro: this.isEditMode ? undefined : new Date(),
+      captcha: this.captchaToken
     };
 
     if (this.isEditMode) {
@@ -115,4 +156,25 @@ export class FormularioUsuario implements OnInit {
       return pass === confirm ? null : { passwordMismatch: true };
     };
   }
+
+  private contraseñaFuerte() {
+    return (control: any) => {
+      const value = control.value;
+      if (!value) return null;
+
+      const cumpleLongitud = value.length >= 8 && value.length <= 12;
+      const contieneMayus = /[A-Z]/.test(value);
+      const contieneMinus = /[a-z]/.test(value);
+      const contieneNumero = /[0-9]/.test(value);
+
+      const valido = cumpleLongitud && contieneMayus && contieneMinus && contieneNumero;
+
+      return valido ? null : { contraseñaInvalida: true };
+    };
+  }
+
+  onCaptchaResolved(token: string | null) {
+    this.captchaToken = token || '';
+  }
+
 }

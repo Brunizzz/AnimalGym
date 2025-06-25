@@ -70,3 +70,9 @@ button:hover {
   color: #000000;
   box-shadow: 0 0 5px #00FF88;
 }
+
+.captcha-container {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}

@@ -17,7 +17,9 @@
     <div>
       <label>Contraseña</label>
       <input type="password" formControlName="contraseña" />
-      <div class="error" *ngIf="campoInvalido('contraseña')">Mínimo 6 caracteres.</div>
+      <div class="error" *ngIf="usuarioForm.get('contraseña')?.errors?.['contraseñaInvalida'] && usuarioForm.get('contraseña')?.touched">
+        La contraseña debe tener entre 8 y 12 caracteres, incluir mayúsculas, minúsculas y números.
+      </div>
     </div>
 
     <div *ngIf="!isEditMode">
@@ -51,6 +53,14 @@
     <div>
       <label><input type="checkbox" formControlName="estado" /> Usuario Activo</label>
     </div>
+
+    <div class="captcha-container">
+      <re-captcha 
+        siteKey="6LdDlG0rAAAAAMoFcOvGjE-1c5bF1ZT7vfprksD2"
+        (resolved)="onCaptchaResolved($event)">
+      </re-captcha>
+    </div>
+
 
     <button type="submit">{{ isEditMode ? 'Actualizar' : 'Agregar' }}</button>
     <button type="button" (click)="cancelar()">Cancelar</button>
