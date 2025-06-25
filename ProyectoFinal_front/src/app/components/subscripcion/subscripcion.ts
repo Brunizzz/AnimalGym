@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode'; // CAMBIO AQUÍ
 import { User } from '../../services/user';
 
 @Component({
   selector: 'app-subscripcion',
   standalone: true,
-  imports: [CommonModule, QRCodeModule],
+  imports: [CommonModule, QRCodeComponent],
   templateUrl: './subscripcion.html',
   styleUrl: './subscripcion.css'
 })

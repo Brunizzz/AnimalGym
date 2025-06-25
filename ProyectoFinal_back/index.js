@@ -2,10 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./config/firebase');
 const { enviarCorreoBienvenida } = require('./mailer');
+const paypalRoutes = require('./routes/paypal');
 
 const app = express();
+
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 //Usuarios
 //Obtener Usuarios
@@ -223,6 +225,10 @@ app.get('/api/reportes/suscripciones', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener usuarios por suscripción' });
   }
 });
+
+//PAYPAL
+// Rutas de PayPal
+app.use('/api/paypal', paypalRoutes); // Monta las rutas de PayPal bajo el prefijo /api/paypal
 
 //Servidor Node
 const PORT = process.env.PORT || 3000;
